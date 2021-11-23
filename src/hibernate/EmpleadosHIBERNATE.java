@@ -31,7 +31,8 @@ public class EmpleadosHIBERNATE {
     public static void main(String[] args) {
         EmpleadosHIBERNATE e = new EmpleadosHIBERNATE();  
         //e.insercion();
-        e.consulta();
+        //e.consulta();
+        e.consultaSalario();
         //e.consultaNombre();
         //e.modificacion();
         //e.eliminacion(207);     
@@ -129,6 +130,39 @@ public class EmpleadosHIBERNATE {
                         + " Apellido\t " + empl.getLastName()
                         + " Salario\t " + empl.getSalary()
                         + " Job ID\t " + empl.getJobId());
+            }
+        }
+        //cierre de Session y SessionFactory
+        sesion.close();
+        creadorSesiones.close();
+    }
+    
+    public void consultaSalario() {
+        //Creación de objetos
+        SessionFactory creadorSesiones = SessionFactorySingleton.getSessionFactory();
+        Session sesion = creadorSesiones.openSession();
+        Transaction tr;
+        tr = sesion.beginTransaction();
+        
+        Employees empl;
+
+        Query q = sesion.createQuery("from Employees where salary > 20000");
+        //Obtenemos el resultado de la consulta 
+        List<Employees> lista = q.list();
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No such Employee");
+            tr.rollback();
+        } else {
+            //Mostremos los datos de los articulos 
+            System.out.println("INFORMACION DE LOS EMPLEADOS");
+            Iterator<Employees> iter = lista.iterator();
+            while (iter.hasNext()) {
+                empl = (Employees) iter.next();
+                System.out.println("ID\t" + empl.getEmployeeId()
+                        + " Nombre\t " + empl.getFirstName()
+                        + " Apellido\t " + empl.getLastName()
+                        + " Salario\t " + empl.getSalary()
+                        );
             }
         }
         //cierre de Session y SessionFactory
