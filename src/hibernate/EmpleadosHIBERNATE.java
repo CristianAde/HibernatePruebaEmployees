@@ -202,11 +202,8 @@ public class EmpleadosHIBERNATE {
         SessionFactory creadorSesiones = SessionFactorySingleton.getSessionFactory();
         Session sesion = creadorSesiones.openSession();
         Transaction tr = sesion.beginTransaction();
-        Employees empl;
-        
-        empl = new Employees();
-         
-        // Get the Employee with the ID = 22
+        Employees empl = new Employees();;
+        //Cargar de la BD un objeto localizado por su ID
         empl = (Employees) sesion.get(Employees.class, id);
         if(empl==null){ 
             JOptionPane.showMessageDialog(null, "No such Employee");
